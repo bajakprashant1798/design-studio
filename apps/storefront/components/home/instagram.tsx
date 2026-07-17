@@ -1,11 +1,11 @@
-import Image from "next/image"
+import Image from 'next/image'
 
 export default function Instagram() {
   const images = [
-    { src: "/hero_fashion_editorial.png", alt: "Editorial lookbook model" },
-    { src: "/instagram_curation_1.png", alt: "Minimal leather bag detail" },
-    { src: "/editorial_lookbook.png", alt: "Scandinavian interior sweaters texture" },
-    { src: "/instagram_curation_2.png", alt: "Charcoal wool coat pocket detail" },
+    { src: '/hero_fashion_editorial.png', alt: 'Editorial lookbook model' },
+    { src: '/instagram_curation_1.png', alt: 'Minimal leather bag detail' },
+    { src: '/editorial_lookbook.png', alt: 'Scandinavian interior sweaters texture' },
+    { src: '/instagram_curation_2.png', alt: 'Charcoal wool coat pocket detail' },
   ]
 
   return (

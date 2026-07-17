@@ -6,12 +6,12 @@ A production-grade, highly-scalable monorepo starter powered by **Medusa v2**, *
 
 ## 🌟 Technology Stack
 
-*   **E-Commerce Core**: Medusa v2 (with admin panel, relational DB module linkages, and event pub/sub system)
-*   **Storefront**: Next.js 15 App Router (utilizing React 19 and Tailwind CSS v4)
-*   **Monorepo Engine**: Turborepo
-*   **Package Manager**: `pnpm` (Workspace configured)
-*   **Infrastructure**: PostgreSQL 16 & Redis 7 (orchestrated via Docker Compose)
-*   **Developer Tooling**: ESLint 9, Prettier, Commitlint, Husky, lint-staged
+- **E-Commerce Core**: Medusa v2 (with admin panel, relational DB module linkages, and event pub/sub system)
+- **Storefront**: Next.js 15 App Router (utilizing React 19 and Tailwind CSS v4)
+- **Monorepo Engine**: Turborepo
+- **Package Manager**: `pnpm` (Workspace configured)
+- **Infrastructure**: PostgreSQL 16 & Redis 7 (orchestrated via Docker Compose)
+- **Developer Tooling**: ESLint 9, Prettier, Commitlint, Husky, lint-staged
 
 ---
 
@@ -47,51 +47,58 @@ Please consult our detailed technical guides located in the `/docs` directory fo
 ## 🚀 Quick Start (Local Development)
 
 ### 1. Sourcing Node.js LTS
+
 pnpm requires the Node.js LTS release. Use `nvm` to select it:
+
 ```bash
 source ~/.nvm/nvm.sh
 nvm use --lts
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 pnpm install
 ```
 
 ### 3. Spin up local database and redis services
+
 ```bash
 docker compose -f infra/docker-compose.yml up -d
 ```
 
 ### 4. Create and update env files
+
 ```bash
 cp apps/backend/.env.template apps/backend/.env
 cp apps/storefront/.env.template apps/storefront/.env
 ```
 
 ### 5. Seeding the Backend DB
+
 ```bash
 pnpm --filter=@dtc/backend run build
 pnpm --filter=@dtc/backend run seed
 ```
 
 ### 6. Run the Dev Servers
+
 ```bash
 pnpm run dev
 ```
 
-*   **Next.js Storefront**: [http://localhost:3000](http://localhost:3000)
-*   **Medusa Core API**: [http://localhost:9000](http://localhost:9000)
-*   **Medusa Admin Dashboard**: [http://localhost:9000/app](http://localhost:9000/app)
+- **Next.js Storefront**: [http://localhost:3000](http://localhost:3000)
+- **Medusa Core API**: [http://localhost:9000](http://localhost:9000)
+- **Medusa Admin Dashboard**: [http://localhost:9000/app](http://localhost:9000/app)
 
 ---
 
 ## 🛠️ Main Workspace Scripts
 
-*   `pnpm run dev`: Launch all applications in parallel developer mode.
-*   `pnpm run build`: Build all application bundles.
-*   `pnpm run lint`: Static analysis code check using ESLint.
-*   `pnpm run lint:fix`: Format and auto-fix linter code warnings.
-*   `pnpm run typecheck`: Type check files in TypeScript.
-*   `pnpm run clean`: Safely drop cached folders, builds, and `node_modules` paths.
-*   `pnpm run test`: Run the test suites.
+- `pnpm run dev`: Launch all applications in parallel developer mode.
+- `pnpm run build`: Build all application bundles.
+- `pnpm run lint`: Static analysis code check using ESLint.
+- `pnpm run lint:fix`: Format and auto-fix linter code warnings.
+- `pnpm run typecheck`: Type check files in TypeScript.
+- `pnpm run clean`: Safely drop cached folders, builds, and `node_modules` paths.
+- `pnpm run test`: Run the test suites.

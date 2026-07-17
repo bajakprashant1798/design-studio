@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import React, { useState } from "react"
-import { useRouter } from "next/navigation"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { completeCartAction } from "@/lib/actions/cart"
-import { formatAmount } from "@/lib/prices"
+import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { completeCartAction } from '@/lib/actions/cart'
+import { formatAmount } from '@/lib/prices'
 
 interface CheckoutFormProps {
   cart: any
@@ -14,15 +14,15 @@ export default function CheckoutForm({ cart }: CheckoutFormProps) {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [formData, setFormData] = useState({
-    email: "",
-    first_name: "",
-    last_name: "",
-    address_1: "",
-    city: "",
-    country_code: "dk", // default region country ISO
+    email: '',
+    first_name: '',
+    last_name: '',
+    address_1: '',
+    city: '',
+    country_code: 'dk', // default region country ISO
   })
 
-  const [checkoutError, setCheckoutError] = useState("")
+  const [checkoutError, setCheckoutError] = useState('')
 
   const checkoutMutation = useMutation({
     mutationFn: async () => {
@@ -30,12 +30,12 @@ export default function CheckoutForm({ cart }: CheckoutFormProps) {
     },
     onSuccess: (res) => {
       // Invalidate the cart cache so the Header count is reset
-      queryClient.invalidateQueries({ queryKey: ["cart"] })
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
       // Redirect to orders page
       router.push(`/orders/${res.orderId}`)
     },
     onError: (err: any) => {
-      setCheckoutError(err.message || "Failed to process order.")
+      setCheckoutError(err.message || 'Failed to process order.')
     },
   })
 
@@ -49,11 +49,10 @@ export default function CheckoutForm({ cart }: CheckoutFormProps) {
     checkoutMutation.mutate()
   }
 
-  const currencyCode = cart.currency_code || "eur"
+  const currencyCode = cart.currency_code || 'eur'
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-      
       {/* Shipping Address Form */}
       <form onSubmit={handleSubmit} className="lg:col-span-7 space-y-6">
         <h2 className="text-xs font-semibold tracking-widest text-zinc-450 uppercase">
@@ -156,7 +155,7 @@ export default function CheckoutForm({ cart }: CheckoutFormProps) {
           disabled={checkoutMutation.isPending}
           className="w-full bg-black text-white dark:bg-white dark:text-black text-xs font-semibold tracking-widest uppercase py-4 border border-black dark:border-white hover:bg-transparent hover:text-black dark:hover:bg-transparent dark:hover:text-white transition-all duration-200"
         >
-          {checkoutMutation.isPending ? "Processing Order..." : "Place Order"}
+          {checkoutMutation.isPending ? 'Processing Order...' : 'Place Order'}
         </button>
       </form>
 
@@ -169,9 +168,15 @@ export default function CheckoutForm({ cart }: CheckoutFormProps) {
         {/* List of items */}
         <ul className="divide-y divide-zinc-200 dark:divide-zinc-850">
           {cart.items?.map((item: any) => {
-            const itemPrice = formatAmount({ amount: item.unit_price * item.quantity, currencyCode })
+            const itemPrice = formatAmount({
+              amount: item.unit_price * item.quantity,
+              currencyCode,
+            })
             return (
-              <li key={item.id} className="flex justify-between items-center py-4 first:pt-0 last:pb-0 text-xs">
+              <li
+                key={item.id}
+                className="flex justify-between items-center py-4 first:pt-0 last:pb-0 text-xs"
+              >
                 <div>
                   <span className="font-medium text-black dark:text-white">{item.title}</span>
                   <span className="text-zinc-400 font-light ml-2">x {item.quantity}</span>
@@ -204,7 +209,6 @@ export default function CheckoutForm({ cart }: CheckoutFormProps) {
           </div>
         </div>
       </div>
-
     </div>
   )
 }

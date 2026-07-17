@@ -1,27 +1,27 @@
-import Hero from "@/components/home/hero"
-import Editorial from "@/components/home/editorial"
-import Newsletter from "@/components/home/newsletter"
-import Instagram from "@/components/home/instagram"
-import ProductCard from "@/components/product/product-card"
-import { medusa } from "@/lib/medusa"
+import Hero from '@/components/home/hero'
+import Editorial from '@/components/home/editorial'
+import Newsletter from '@/components/home/newsletter'
+import Instagram from '@/components/home/instagram'
+import ProductCard from '@/components/product/product-card'
+import { medusa } from '@/lib/medusa'
 
 // Force dynamic rendering to query backend state on demand
-export const dynamic = "force-dynamic"
+export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   let products: any[] = []
-  let errorMsg = ""
+  let errorMsg = ''
 
   try {
     const response = await medusa.store.product.list({
-      region_id: "reg_01KXPHZG8SZD8BZV5TZ8MQBRG6",
-      fields: "*variants.calculated_price",
+      region_id: 'reg_01KXPHZG8SZD8BZV5TZ8MQBRG6',
+      fields: '*variants.calculated_price',
       limit: 8,
     })
     products = response.products || []
   } catch (err: any) {
-    console.error("Failed to fetch homepage products:", err)
-    errorMsg = err.message || "Unable to connect to the store database."
+    console.error('Failed to fetch homepage products:', err)
+    errorMsg = err.message || 'Unable to connect to the store database.'
   }
 
   // Slice products for categories (mocking segmentation from seeded dataset)
@@ -31,7 +31,6 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      
       {/* 1. Hero Campaign */}
       <Hero />
 
@@ -87,7 +86,6 @@ export default async function Home() {
 
       {/* 6. Newsletter Subscription */}
       <Newsletter />
-
     </div>
   )
 }

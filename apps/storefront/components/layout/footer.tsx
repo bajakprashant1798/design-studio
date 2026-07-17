@@ -1,28 +1,28 @@
-import Link from "next/link"
+import Link from 'next/link'
 
 export default function Footer() {
   const footerSections = [
     {
-      title: "COLLECTIONS",
+      title: 'COLLECTIONS',
       links: [
-        { name: "New Arrivals", href: "/collections/new-arrivals" },
-        { name: "Best Sellers", href: "/collections/best-sellers" },
-        { name: "All Products", href: "/categories" },
+        { name: 'New Arrivals', href: '/collections/new-arrivals' },
+        { name: 'Best Sellers', href: '/collections/best-sellers' },
+        { name: 'All Products', href: '/categories' },
       ],
     },
     {
-      title: "ASSISTANCE",
+      title: 'ASSISTANCE',
       links: [
-        { name: "Contact Us", href: "/contact" },
-        { name: "Shipping & Returns", href: "/about" },
-        { name: "FAQs", href: "/about" },
+        { name: 'Contact Us', href: '/contact' },
+        { name: 'Shipping & Returns', href: '/about' },
+        { name: 'FAQs', href: '/about' },
       ],
     },
     {
-      title: "LEGAL",
+      title: 'LEGAL',
       links: [
-        { name: "Privacy Policy", href: "/privacy" },
-        { name: "Terms & Conditions", href: "/terms" },
+        { name: 'Privacy Policy', href: '/privacy' },
+        { name: 'Terms & Conditions', href: '/terms' },
       ],
     },
   ]
@@ -31,14 +31,14 @@ export default function Footer() {
     <footer className="border-t border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          
           {/* Brand info */}
           <div className="flex flex-col space-y-4">
             <span className="font-serif text-lg font-medium tracking-widest text-black dark:text-white">
               DESIGN STUDIO
             </span>
             <p className="max-w-xs text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-              A curation of premium essential apparel designed for the modern uniform. Crafted with slow-fashion principles and premium materials.
+              A curation of premium essential apparel designed for the modern uniform. Crafted with
+              slow-fashion principles and premium materials.
             </p>
           </div>
 

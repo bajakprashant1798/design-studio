@@ -1,6 +1,6 @@
-import Link from "next/link"
-import Image from "next/image"
-import { getProductPrice, formatAmount } from "@/lib/prices"
+import Link from 'next/link'
+import Image from 'next/image'
+import { getProductPrice, formatAmount } from '@/lib/prices'
 
 interface ProductCardProps {
   product: any

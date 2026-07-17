@@ -1,11 +1,10 @@
-import Link from "next/link"
-import Image from "next/image"
+import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Editorial() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-        
         {/* Left: Image Container */}
         <div className="relative aspect-square w-full overflow-hidden bg-zinc-50 dark:bg-zinc-900 border border-zinc-150 dark:border-zinc-800">
           <Image
@@ -26,7 +25,8 @@ export default function Editorial() {
             Quiet luxury. Tailored for comfort.
           </h2>
           <p className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 font-light space-y-4">
-            Our aesthetic is anchored in warm minimalism. By eliminating unnecessary hardware and prioritizing structural silhouettes, we curate garments that stand as functional art.
+            Our aesthetic is anchored in warm minimalism. By eliminating unnecessary hardware and
+            prioritizing structural silhouettes, we curate garments that stand as functional art.
           </p>
           <div className="pt-2">
             <Link
@@ -37,7 +37,6 @@ export default function Editorial() {
             </Link>
           </div>
         </div>
-
       </div>
     </section>
   )

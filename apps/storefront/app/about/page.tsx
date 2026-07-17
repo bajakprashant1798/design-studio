@@ -12,13 +12,19 @@ export default function AboutPage() {
 
       <section className="text-xs leading-relaxed text-zinc-650 dark:text-zinc-350 space-y-6 font-light">
         <p>
-          DESIGN STUDIO was founded with a singular focus: to create a contemporary uniform that balances architectural simplicity with everyday utility. We reject the rapid cycles of fast fashion, choosing instead to design and refine garments that endure.
+          DESIGN STUDIO was founded with a singular focus: to create a contemporary uniform that
+          balances architectural simplicity with everyday utility. We reject the rapid cycles of
+          fast fashion, choosing instead to design and refine garments that endure.
         </p>
         <p>
-          Each collection is produced in limited volumes, utilizing organic cotton, heavy-weight linen, and recycled cashmere sourced from ethical mills. Our manufacturing partners are vetted for fair labor practices and shared environmental values.
+          Each collection is produced in limited volumes, utilizing organic cotton, heavy-weight
+          linen, and recycled cashmere sourced from ethical mills. Our manufacturing partners are
+          vetted for fair labor practices and shared environmental values.
         </p>
         <p>
-          By embracing neutral monochromatic palettes, subtle tailored proportions, and removing visible branding, we design clothes that integrate seamlessly with your wardrobe. This is clothing as structural canvas, curated to outlast trend cycles.
+          By embracing neutral monochromatic palettes, subtle tailored proportions, and removing
+          visible branding, we design clothes that integrate seamlessly with your wardrobe. This is
+          clothing as structural canvas, curated to outlast trend cycles.
         </p>
       </section>
 

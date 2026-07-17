@@ -1,5 +1,3 @@
-import medusa from "@medusajs/eslint-plugin";
+import medusa from '@medusajs/eslint-plugin'
 
-export default [
-  ...medusa.configs.recommended
-];
+export default [...medusa.configs.recommended]

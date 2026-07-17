@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { formatAmount } from "@/lib/prices"
-import { useStore } from "@/context/store-context"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { addToCartAction } from "@/lib/actions/cart"
+import { useState } from 'react'
+import { formatAmount } from '@/lib/prices'
+import { useStore } from '@/context/store-context'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { addToCartAction } from '@/lib/actions/cart'
 
 interface VariantSelectorProps {
   product: any
@@ -13,7 +13,7 @@ interface VariantSelectorProps {
 export default function VariantSelector({ product }: VariantSelectorProps) {
   const { setCartOpen } = useStore()
   const queryClient = useQueryClient()
-  
+
   // Initialize default options selection (first value of each option)
   const initialOptions: Record<string, string> = {}
   product.options?.forEach((opt: any) => {
@@ -46,7 +46,7 @@ export default function VariantSelector({ product }: VariantSelectorProps) {
       return addToCartAction(activeVariant.id, 1)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] })
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
       setCartOpen(true)
     },
   })
@@ -72,7 +72,7 @@ export default function VariantSelector({ product }: VariantSelectorProps) {
           {product.title}
         </h1>
         <p className="text-sm font-semibold tracking-wide text-zinc-900 dark:text-zinc-100 mt-2">
-          {activePrice || "Select variations"}
+          {activePrice || 'Select variations'}
         </p>
       </div>
 
@@ -99,8 +99,8 @@ export default function VariantSelector({ product }: VariantSelectorProps) {
                     onClick={() => handleOptionChange(option.title, val.value)}
                     className={`border px-4 py-1.5 text-xs font-medium uppercase transition-all duration-150 ${
                       isSelected
-                        ? "border-black bg-black text-white dark:border-white dark:bg-white dark:text-black"
-                        : "border-zinc-200 hover:border-black dark:border-zinc-800 dark:hover:border-white"
+                        ? 'border-black bg-black text-white dark:border-white dark:bg-white dark:text-black'
+                        : 'border-zinc-200 hover:border-black dark:border-zinc-800 dark:hover:border-white'
                     }`}
                   >
                     {val.value}
@@ -117,8 +117,8 @@ export default function VariantSelector({ product }: VariantSelectorProps) {
         <div className="flex items-center gap-x-2 text-[10px] tracking-wide text-zinc-500 font-light">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
           {activeVariant.manage_inventory && activeVariant.inventory_quantity <= 0
-            ? "Pre-order active / crafted to order"
-            : "Available to ship in 1-2 business days"}
+            ? 'Pre-order active / crafted to order'
+            : 'Available to ship in 1-2 business days'}
         </div>
       )}
 
@@ -129,7 +129,7 @@ export default function VariantSelector({ product }: VariantSelectorProps) {
           disabled={!activeVariant || addingToBag}
           className="w-full bg-black text-white dark:bg-white dark:text-black text-xs font-semibold tracking-widest uppercase py-4 border border-black dark:border-white hover:bg-transparent hover:text-black dark:hover:bg-transparent dark:hover:text-white disabled:opacity-40 disabled:pointer-events-none transition-all duration-200"
         >
-          {addingToBag ? "Adding to Bag..." : activeVariant ? "Add to Bag" : "Select Options"}
+          {addingToBag ? 'Adding to Bag...' : activeVariant ? 'Add to Bag' : 'Select Options'}
         </button>
       </div>
     </div>

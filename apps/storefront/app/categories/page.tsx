@@ -1,32 +1,31 @@
-import Link from "next/link"
-import ProductCard from "@/components/product/product-card"
-import { medusa } from "@/lib/medusa"
+import Link from 'next/link'
+import ProductCard from '@/components/product/product-card'
+import { medusa } from '@/lib/medusa'
 
-export const dynamic = "force-dynamic"
+export const dynamic = 'force-dynamic'
 
 export default async function CategoriesPage() {
   let categories: any[] = []
   let products: any[] = []
-  let errorMsg = ""
+  let errorMsg = ''
 
   try {
     const catResponse = await medusa.store.category.list()
     categories = catResponse.product_categories || []
 
     const prodResponse = await medusa.store.product.list({
-      region_id: "reg_01KXPHZG8SZD8BZV5TZ8MQBRG6",
-      fields: "*variants.calculated_price",
+      region_id: 'reg_01KXPHZG8SZD8BZV5TZ8MQBRG6',
+      fields: '*variants.calculated_price',
       limit: 20,
     })
     products = prodResponse.products || []
   } catch (err: any) {
-    console.error("Failed to load catalog data:", err)
-    errorMsg = err.message || "Unable to fetch storefront catalog."
+    console.error('Failed to load catalog data:', err)
+    errorMsg = err.message || 'Unable to fetch storefront catalog.'
   }
 
   return (
     <div className="mx-auto max-w-7xl w-full px-4 py-16 sm:px-6 lg:px-8 space-y-16">
-      
       {/* Page Header */}
       <header className="space-y-4 border-b border-zinc-150 pb-8 dark:border-zinc-800">
         <span className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase">
@@ -59,7 +58,9 @@ export default async function CategoriesPage() {
         {errorMsg ? (
           <p className="text-xs text-zinc-400 tracking-wider text-center py-12">{errorMsg}</p>
         ) : products.length === 0 ? (
-          <p className="text-xs text-zinc-400 tracking-wider text-center py-12">No products found.</p>
+          <p className="text-xs text-zinc-400 tracking-wider text-center py-12">
+            No products found.
+          </p>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
             {products.map((product) => (
@@ -68,7 +69,6 @@ export default async function CategoriesPage() {
           </div>
         )}
       </div>
-
     </div>
   )
 }

@@ -1,39 +1,39 @@
-import { notFound } from "next/navigation"
-import { medusa } from "@/lib/medusa"
-import { formatAmount } from "@/lib/prices"
-import Link from "next/link"
+import { notFound } from 'next/navigation'
+import { medusa } from '@/lib/medusa'
+import { formatAmount } from '@/lib/prices'
+import Link from 'next/link'
 
 interface PageProps {
   params: Promise<{ id: string }>
 }
 
-export const dynamic = "force-dynamic"
+export const dynamic = 'force-dynamic'
 
 export default async function OrderSuccessPage({ params }: PageProps) {
   const { id } = await params
 
   let order: any = null
-  let errorMsg = ""
+  let errorMsg = ''
 
   try {
     const response = await medusa.store.order.retrieve(id, {
-      fields: "+items.thumbnail,+items.title,+items.variant,+shipping_address.first_name,+shipping_address.last_name,+shipping_address.address_1,+shipping_address.city",
+      fields:
+        '+items.thumbnail,+items.title,+items.variant,+shipping_address.first_name,+shipping_address.last_name,+shipping_address.address_1,+shipping_address.city',
     })
     order = response.order || (response as any).document
   } catch (err: any) {
-    console.error("Failed to query order:", err)
-    errorMsg = err.message || "Failed to load order receipt."
+    console.error('Failed to query order:', err)
+    errorMsg = err.message || 'Failed to load order receipt.'
   }
 
   if (errorMsg || !order) {
     return notFound()
   }
 
-  const currencyCode = order.currency_code || "eur"
+  const currencyCode = order.currency_code || 'eur'
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-24 sm:px-6 lg:px-8 space-y-12">
-      
       {/* Confirmation Greeting */}
       <header className="space-y-4 text-center">
         <span className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase">
@@ -51,16 +51,20 @@ export default async function OrderSuccessPage({ params }: PageProps) {
       <div className="border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-800 dark:bg-zinc-950 space-y-6">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center text-xs gap-y-2 border-b border-zinc-200 dark:border-zinc-800 pb-4">
           <div>
-            <span className="text-zinc-400 font-light uppercase text-[9px] tracking-wider block">Order ID</span>
+            <span className="text-zinc-400 font-light uppercase text-[9px] tracking-wider block">
+              Order ID
+            </span>
             <span className="font-semibold text-black dark:text-white">{order.id}</span>
           </div>
           <div>
-            <span className="text-zinc-400 font-light uppercase text-[9px] tracking-wider block">Placed on</span>
+            <span className="text-zinc-400 font-light uppercase text-[9px] tracking-wider block">
+              Placed on
+            </span>
             <span className="font-semibold text-black dark:text-white">
-              {new Date(order.created_at).toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
+              {new Date(order.created_at).toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
               })}
             </span>
           </div>
@@ -69,7 +73,10 @@ export default async function OrderSuccessPage({ params }: PageProps) {
         {/* Items */}
         <ul className="divide-y divide-zinc-200 dark:divide-zinc-850">
           {order.items?.map((item: any) => (
-            <li key={item.id} className="flex justify-between items-center py-4 first:pt-0 last:pb-0 text-xs">
+            <li
+              key={item.id}
+              className="flex justify-between items-center py-4 first:pt-0 last:pb-0 text-xs"
+            >
               <div>
                 <span className="font-medium text-black dark:text-white">{item.title}</span>
                 <span className="text-zinc-400 font-light ml-2">x {item.quantity}</span>
@@ -109,7 +116,6 @@ export default async function OrderSuccessPage({ params }: PageProps) {
           Continue Shopping
         </Link>
       </div>
-
     </div>
   )
 }

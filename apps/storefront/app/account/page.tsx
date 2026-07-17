@@ -1,10 +1,10 @@
-import { getCustomerSession, logoutCustomer } from "@/lib/actions/customer"
-import AccountLoginForm from "./login-form"
-import { medusa } from "@/lib/medusa"
-import { formatAmount } from "@/lib/prices"
-import Link from "next/link"
+import { getCustomerSession, logoutCustomer } from '@/lib/actions/customer'
+import AccountLoginForm from './login-form'
+import { medusa } from '@/lib/medusa'
+import { formatAmount } from '@/lib/prices'
+import Link from 'next/link'
 
-export const dynamic = "force-dynamic"
+export const dynamic = 'force-dynamic'
 
 export default async function AccountPage() {
   const session = await getCustomerSession()
@@ -14,7 +14,7 @@ export default async function AccountPage() {
   }
 
   let orders: any[] = []
-  let errorMsg = ""
+  let errorMsg = ''
 
   try {
     // Fetch orders matching customer email from Medusa core
@@ -23,24 +23,25 @@ export default async function AccountPage() {
       // Note: Medusa v2 lists orders matching email or customer
       // If we don't have custom query filters, it returns list
     })
-    
+
     // Filter matching email on server side for simple session linkage
     const allOrders = response.orders || []
-    orders = allOrders.filter((ord: any) => ord.email?.toLowerCase() === session.email.toLowerCase())
+    orders = allOrders.filter(
+      (ord: any) => ord.email?.toLowerCase() === session.email.toLowerCase()
+    )
   } catch (err: any) {
-    console.error("Failed to query customer orders:", err)
-    errorMsg = err.message || "Failed to load order history."
+    console.error('Failed to query customer orders:', err)
+    errorMsg = err.message || 'Failed to load order history.'
   }
 
   // Handle logout submission in action handler
   const handleLogout = async () => {
-    "use server"
+    'use server'
     await logoutCustomer()
   }
 
   return (
     <div className="mx-auto max-w-7xl w-full px-4 py-16 sm:px-6 lg:px-8 space-y-16">
-      
       {/* Account Dashboard Header */}
       <header className="flex flex-col sm:flex-row justify-between sm:items-baseline gap-4 border-b border-zinc-150 pb-8 dark:border-zinc-800">
         <div className="space-y-2">
@@ -52,7 +53,7 @@ export default async function AccountPage() {
           </h1>
           <p className="text-xs text-zinc-500 font-light">{session.email}</p>
         </div>
-        
+
         {/* Logout Form Trigger */}
         <form action={handleLogout}>
           <button
@@ -65,7 +66,6 @@ export default async function AccountPage() {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-        
         {/* Previous Orders log */}
         <section className="lg:col-span-8 space-y-6">
           <h2 className="text-xs font-semibold tracking-widest text-zinc-450 uppercase">
@@ -81,7 +81,7 @@ export default async function AccountPage() {
           ) : (
             <div className="space-y-4">
               {orders.map((order) => {
-                const currencyCode = order.currency_code || "eur"
+                const currencyCode = order.currency_code || 'eur'
                 return (
                   <div
                     key={order.id}
@@ -144,9 +144,7 @@ export default async function AccountPage() {
             </div>
           </div>
         </aside>
-
       </div>
-
     </div>
   )
 }

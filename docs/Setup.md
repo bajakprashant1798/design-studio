@@ -8,10 +8,10 @@ This document describes how to configure, run, and seed the monorepo workspace f
 
 Before starting, ensure you have the following installed:
 
-*   **Node.js**: Version 22 (LTS is required).
-*   **Package Manager**: `pnpm` (installed globally: `npm install -g pnpm@11.1.2`).
-*   **Containerization**: `Docker` and `Docker Compose` (to run Postgres and Redis).
-*   **Version Control**: `git`.
+- **Node.js**: Version 22 (LTS is required).
+- **Package Manager**: `pnpm` (installed globally: `npm install -g pnpm@11.1.2`).
+- **Containerization**: `Docker` and `Docker Compose` (to run Postgres and Redis).
+- **Version Control**: `git`.
 
 ---
 
@@ -39,8 +39,9 @@ docker compose -f infra/docker-compose.yml up -d
 ```
 
 This spins up:
-*   PostgreSQL database: `medusa` on port `5432` with credentials `medusa` / `medusa`.
-*   Redis server: Port `6379`.
+
+- PostgreSQL database: `medusa` on port `5432` with credentials `medusa` / `medusa`.
+- Redis server: Port `6379`.
 
 ---
 
@@ -49,12 +50,15 @@ This spins up:
 Create local environment configuration files using the provided templates:
 
 ### 4.1. Medusa Backend
+
 Navigate to `apps/backend/` and copy the template:
+
 ```bash
 cp apps/backend/.env.template apps/backend/.env
 ```
 
 Ensure the contents look correct (local Postgres points to `localhost:5432/medusa-design-studio` by default):
+
 ```ini
 STORE_CORS=http://localhost:3000
 ADMIN_CORS=http://localhost:9000,http://localhost:5173
@@ -66,12 +70,15 @@ COOKIE_SECRET=supersecret
 ```
 
 ### 4.2. Next.js Storefront
+
 Navigate to `apps/storefront/` and copy the template:
+
 ```bash
 cp apps/storefront/.env.template apps/storefront/.env
 ```
 
 Ensure the backend API URL matches the local backend port:
+
 ```ini
 NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
 ```
@@ -98,6 +105,6 @@ Start both the Medusa backend and Next.js storefront servers concurrently:
 pnpm run dev
 ```
 
-*   **Medusa Admin Dashboard**: [http://localhost:9000/app](http://localhost:9000/app)
-*   **Medusa Store API**: [http://localhost:9000](http://localhost:9000)
-*   **Next.js Storefront**: [http://localhost:3000](http://localhost:3000)
+- **Medusa Admin Dashboard**: [http://localhost:9000/app](http://localhost:9000/app)
+- **Medusa Store API**: [http://localhost:9000](http://localhost:9000)
+- **Next.js Storefront**: [http://localhost:3000](http://localhost:3000)

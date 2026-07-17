@@ -1,14 +1,14 @@
-"use client"
+'use client'
 
-import React, { useState } from "react"
-import { useRouter } from "next/navigation"
-import { loginCustomer } from "@/lib/actions/customer"
+import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { loginCustomer } from '@/lib/actions/customer'
 
 export default function AccountLoginForm() {
   const router = useRouter()
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    name: '',
+    email: '',
   })
 
   const [loading, setLoading] = useState(false)
@@ -19,10 +19,10 @@ export default function AccountLoginForm() {
 
     setLoading(true)
     try {
-      await loginCustomer(formData.email, formData.name || "Member")
+      await loginCustomer(formData.email, formData.name || 'Member')
       router.refresh()
     } catch (err) {
-      console.error("Sign in failed:", err)
+      console.error('Sign in failed:', err)
     } finally {
       setLoading(false)
     }
@@ -34,9 +34,7 @@ export default function AccountLoginForm() {
         <span className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase">
           MEMBERSHIP PORTAL
         </span>
-        <h1 className="font-serif text-2xl tracking-tight text-black dark:text-white">
-          Sign In
-        </h1>
+        <h1 className="font-serif text-2xl tracking-tight text-black dark:text-white">Sign In</h1>
         <p className="text-xs text-zinc-500 font-light max-w-xs mx-auto">
           Create or access your member profile to review order details and shipping logs.
         </p>
@@ -76,7 +74,7 @@ export default function AccountLoginForm() {
           disabled={loading}
           className="w-full bg-black text-white dark:bg-white dark:text-black text-xs font-semibold tracking-widest uppercase py-4 border border-black dark:border-white hover:bg-transparent hover:text-black dark:hover:bg-transparent dark:hover:text-white transition-all duration-200"
         >
-          {loading ? "Signing in..." : "Continue"}
+          {loading ? 'Signing in...' : 'Continue'}
         </button>
       </form>
     </div>

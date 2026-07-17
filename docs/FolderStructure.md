@@ -75,13 +75,16 @@ design-studio/
 ## 2. Directories & Package Definitions
 
 ### 2.1. apps/
-*   **`backend`**: Holds the Medusa v2 engine. Uses TypeScript, compiling to `.medusa/server` for execution. Connects to PostgreSQL (relational storage) and Redis (caching and event bus).
-*   **`storefront`**: A Next.js 15 application. It uses React 19 and Tailwind CSS v4 to query and display product listings, manage shopping carts, and handle customer checkouts.
+
+- **`backend`**: Holds the Medusa v2 engine. Uses TypeScript, compiling to `.medusa/server` for execution. Connects to PostgreSQL (relational storage) and Redis (caching and event bus).
+- **`storefront`**: A Next.js 15 application. It uses React 19 and Tailwind CSS v4 to query and display product listings, manage shopping carts, and handle customer checkouts.
 
 ### 2.2. packages/
-*   **`typescript-config`**: Standardized TS configurations. Apps import target profiles (like `@dtc/typescript-config/nextjs.json`) to keep local compile targets identical.
-*   **`eslint-config`**: Houses ESLint 9 configuration templates. Reuses Next.js lint configurations and Medusa's recommended rules to maintain clean code patterns.
+
+- **`typescript-config`**: Standardized TS configurations. Apps import target profiles (like `@dtc/typescript-config/nextjs.json`) to keep local compile targets identical.
+- **`eslint-config`**: Houses ESLint 9 configuration templates. Reuses Next.js lint configurations and Medusa's recommended rules to maintain clean code patterns.
 
 ### 2.3. infra/
-*   **Local Infrastructure (`docker-compose.yml`)**: Spins up containers for PostgreSQL and Redis to build locally without managing binary versions locally on the machine.
-*   **Production Infrastructure (`docker-compose.prod.yml`)**: Builds the Dockerfiles in each application directory and orchestrates a local testing setup matching standard Kubernetes or server deployments.
+
+- **Local Infrastructure (`docker-compose.yml`)**: Spins up containers for PostgreSQL and Redis to build locally without managing binary versions locally on the machine.
+- **Production Infrastructure (`docker-compose.prod.yml`)**: Builds the Dockerfiles in each application directory and orchestrates a local testing setup matching standard Kubernetes or server deployments.

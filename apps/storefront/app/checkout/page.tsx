@@ -1,15 +1,15 @@
-import { getCart } from "@/lib/actions/cart"
-import { redirect } from "next/navigation"
-import CheckoutForm from "./checkout-form"
+import { getCart } from '@/lib/actions/cart'
+import { redirect } from 'next/navigation'
+import CheckoutForm from './checkout-form'
 
-export const dynamic = "force-dynamic"
+export const dynamic = 'force-dynamic'
 
 export default async function CheckoutPage() {
   const cart = await getCart()
 
   // Redirect to home page if cart is empty or doesn't exist
   if (!cart || !cart.items || cart.items.length === 0) {
-    redirect("/")
+    redirect('/')
   }
 
   return (
@@ -18,9 +18,7 @@ export default async function CheckoutPage() {
         <span className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase">
           SECURE TRANSACTIONS
         </span>
-        <h1 className="font-serif text-3xl tracking-tight text-black dark:text-white">
-          Checkout
-        </h1>
+        <h1 className="font-serif text-3xl tracking-tight text-black dark:text-white">Checkout</h1>
       </header>
 
       {/* Renders interactive form layout */}

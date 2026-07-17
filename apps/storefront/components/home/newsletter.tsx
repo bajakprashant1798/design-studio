@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 export default function Newsletter() {
   return (
@@ -11,9 +11,13 @@ export default function Newsletter() {
           Subscribe to our Newsletter
         </h2>
         <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light max-w-md mx-auto leading-relaxed">
-          Receive priority invitations to private lookbook releases, essential collection drops, and digital events.
+          Receive priority invitations to private lookbook releases, essential collection drops, and
+          digital events.
         </p>
-        <form className="flex flex-col sm:flex-row gap-4 justify-center pt-2" onSubmit={(e) => e.preventDefault()}>
+        <form
+          className="flex flex-col sm:flex-row gap-4 justify-center pt-2"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <input
             type="email"
             placeholder="Enter your email"

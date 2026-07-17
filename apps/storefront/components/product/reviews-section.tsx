@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import React, { useState } from "react"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { Star } from "lucide-react"
+import React, { useState } from 'react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { Star } from 'lucide-react'
 
 interface Review {
   id: string
@@ -18,25 +18,25 @@ interface ReviewsSectionProps {
 
 export default function ReviewsSection({ productId }: ReviewsSectionProps) {
   const queryClient = useQueryClient()
-  const [name, setName] = useState("")
+  const [name, setName] = useState('')
   const [rating, setRating] = useState(5)
-  const [comment, setComment] = useState("")
-  const [submitError, setSubmitError] = useState("")
+  const [comment, setComment] = useState('')
+  const [submitError, setSubmitError] = useState('')
 
-  const backendUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"
-  const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || ""
+  const backendUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'
+  const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || ''
 
   // Fetch reviews via React Query
   const { data, isLoading } = useQuery<{ reviews: Review[] }>({
-    queryKey: ["reviews", productId],
+    queryKey: ['reviews', productId],
     queryFn: async () => {
       const res = await fetch(`${backendUrl}/store/products/${productId}/reviews`, {
         headers: {
-          "x-publishable-api-key": publishableKey,
+          'x-publishable-api-key': publishableKey,
         },
       })
       if (!res.ok) {
-        throw new Error("Failed to load reviews.")
+        throw new Error('Failed to load reviews.')
       }
       return res.json()
     },
@@ -46,28 +46,28 @@ export default function ReviewsSection({ productId }: ReviewsSectionProps) {
   const submitMutation = useMutation({
     mutationFn: async (payload: { customer_name: string; rating: number; comment: string }) => {
       const res = await fetch(`${backendUrl}/store/products/${productId}/reviews`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "x-publishable-api-key": publishableKey,
+          'Content-Type': 'application/json',
+          'x-publishable-api-key': publishableKey,
         },
         body: JSON.stringify(payload),
       })
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}))
-        throw new Error(errData.message || "Failed to submit review.")
+        throw new Error(errData.message || 'Failed to submit review.')
       }
       return res.json()
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["reviews", productId] })
-      setName("")
+      queryClient.invalidateQueries({ queryKey: ['reviews', productId] })
+      setName('')
       setRating(5)
-      setComment("")
-      setSubmitError("")
+      setComment('')
+      setSubmitError('')
     },
     onError: (err: any) => {
-      setSubmitError(err.message || "Something went wrong.")
+      setSubmitError(err.message || 'Something went wrong.')
     },
   })
 
@@ -78,16 +78,16 @@ export default function ReviewsSection({ productId }: ReviewsSectionProps) {
   }
 
   const reviews = data?.reviews || []
-  
+
   // Calculate average rating
-  const avgRating = reviews.length > 0
-    ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)
-    : "0.0"
+  const avgRating =
+    reviews.length > 0
+      ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)
+      : '0.0'
 
   return (
     <section className="border-t border-zinc-150 pt-16 dark:border-zinc-800 space-y-12">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-        
         {/* Left: Reviews List & Average Header */}
         <div className="lg:col-span-7 space-y-8">
           <div className="flex items-center gap-x-4">
@@ -112,16 +112,18 @@ export default function ReviewsSection({ productId }: ReviewsSectionProps) {
               {reviews.map((rev) => (
                 <li key={rev.id} className="py-6 first:pt-0 last:pb-0 space-y-2">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-black dark:text-white">{rev.customer_name}</span>
+                    <span className="font-semibold text-black dark:text-white">
+                      {rev.customer_name}
+                    </span>
                     <span className="text-zinc-400 font-light">
-                      {new Date(rev.created_at).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
+                      {new Date(rev.created_at).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
                       })}
                     </span>
                   </div>
-                  
+
                   {/* Rating Stars list */}
                   <div className="flex gap-x-0.5">
                     {Array.from({ length: 5 }).map((_, i) => (
@@ -129,8 +131,8 @@ export default function ReviewsSection({ productId }: ReviewsSectionProps) {
                         key={i}
                         className={`h-3 w-3 ${
                           i < rev.rating
-                            ? "fill-black stroke-black dark:fill-white dark:stroke-white"
-                            : "text-zinc-200 dark:text-zinc-800"
+                            ? 'fill-black stroke-black dark:fill-white dark:stroke-white'
+                            : 'text-zinc-200 dark:text-zinc-800'
                         }`}
                       />
                     ))}
@@ -173,8 +175,8 @@ export default function ReviewsSection({ productId }: ReviewsSectionProps) {
                       <Star
                         className={`h-5 w-5 ${
                           isActive
-                            ? "fill-black stroke-black dark:fill-white dark:stroke-white"
-                            : "text-zinc-200 dark:text-zinc-800"
+                            ? 'fill-black stroke-black dark:fill-white dark:stroke-white'
+                            : 'text-zinc-200 dark:text-zinc-800'
                         }`}
                       />
                     </button>
@@ -217,11 +219,10 @@ export default function ReviewsSection({ productId }: ReviewsSectionProps) {
               disabled={submitMutation.isPending}
               className="w-full bg-black text-white dark:bg-white dark:text-black text-xs font-semibold tracking-widest uppercase py-3 hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
             >
-              {submitMutation.isPending ? "Submitting..." : "Submit Review"}
+              {submitMutation.isPending ? 'Submitting...' : 'Submit Review'}
             </button>
           </form>
         </div>
-
       </div>
     </section>
   )

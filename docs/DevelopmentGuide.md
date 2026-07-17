@@ -29,18 +29,23 @@ The `pnpm run dev` command uses Turborepo to run `@dtc/backend` and `@dtc/storef
 Because this project uses a pnpm monorepo workspace, **never** run generic `npm install` or run `pnpm install` inside subfolders without specifying filters.
 
 ### 2.1. Adding a Package to a Specific App
+
 To install a dependency (e.g. `lodash`) into the storefront application:
+
 ```bash
 pnpm --filter=@dtc/storefront add lodash
 ```
 
 To install a developer tool (e.g. `@types/lodash`) as a devDependency in the storefront:
+
 ```bash
 pnpm --filter=@dtc/storefront add -D @types/lodash
 ```
 
 ### 2.2. Adding a Package to all workspaces or Root
+
 To install a global developer utility (e.g. `eslint-plugin-react`) at the workspace root:
+
 ```bash
 pnpm add -Dw eslint-plugin-react
 ```
@@ -52,20 +57,26 @@ pnpm add -Dw eslint-plugin-react
 Medusa v2 manages its database schema using Medusa CLI migrations.
 
 ### 3.1. Generating a New Migration
+
 When you create or update modules in `apps/backend/src/modules/`, generate a database migration script:
+
 ```bash
 # Run medusa db migrations generator
 pnpm --filter=@dtc/backend exec medusa db:generate <module-name>
 ```
 
 ### 3.2. Running Migrations
+
 To apply outstanding migrations to your local PostgreSQL database:
+
 ```bash
 pnpm --filter=@dtc/backend exec medusa db:migrate
 ```
 
 ### 3.3. Seeding the Database
+
 To clear data and re-apply seed mock products, categories, and regions:
+
 ```bash
 pnpm --filter=@dtc/backend run seed
 ```
@@ -101,4 +112,5 @@ If you encounter dependency mismatches, typescript caching quirks, or lock file 
 pnpm run clean
 pnpm install
 ```
+
 This drops the root `.turbo` cache, `.next` builds, compiled `.medusa` servers, and all `node_modules` workspaces.

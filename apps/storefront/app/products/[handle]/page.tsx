@@ -1,32 +1,32 @@
-import { notFound } from "next/navigation"
-import Gallery from "@/components/product/gallery"
-import VariantSelector from "@/components/product/variant-selector"
-import ProductCard from "@/components/product/product-card"
-import ReviewsSection from "@/components/product/reviews-section"
-import { medusa } from "@/lib/medusa"
+import { notFound } from 'next/navigation'
+import Gallery from '@/components/product/gallery'
+import VariantSelector from '@/components/product/variant-selector'
+import ProductCard from '@/components/product/product-card'
+import ReviewsSection from '@/components/product/reviews-section'
+import { medusa } from '@/lib/medusa'
 
 interface PageProps {
   params: Promise<{ handle: string }>
 }
 
-export const dynamic = "force-dynamic"
+export const dynamic = 'force-dynamic'
 
 export default async function ProductDetailPage({ params }: PageProps) {
   const { handle } = await params
 
   let product: any = null
   let relatedProducts: any[] = []
-  let errorMsg = ""
+  let errorMsg = ''
 
   try {
     // 1. Fetch product list by handle
     const response = await medusa.store.product.list({
       handle: handle,
-      region_id: "reg_01KXPHZG8SZD8BZV5TZ8MQBRG6",
-      fields: "*variants.calculated_price",
+      region_id: 'reg_01KXPHZG8SZD8BZV5TZ8MQBRG6',
+      fields: '*variants.calculated_price',
       limit: 1,
     })
-    
+
     product = response.products[0]
     if (!product) {
       return notFound()
@@ -36,17 +36,18 @@ export default async function ProductDetailPage({ params }: PageProps) {
     const catId = product.categories?.[0]?.id
     const relatedResponse = await medusa.store.product.list({
       category_id: catId ? [catId] : undefined,
-      region_id: "reg_01KXPHZG8SZD8BZV5TZ8MQBRG6",
-      fields: "*variants.calculated_price",
+      region_id: 'reg_01KXPHZG8SZD8BZV5TZ8MQBRG6',
+      fields: '*variants.calculated_price',
       limit: 5,
     })
 
     // Exclude the current active product from recommendations
-    relatedProducts = (relatedResponse.products || []).filter((p) => p.id !== product.id).slice(0, 4)
-
+    relatedProducts = (relatedResponse.products || [])
+      .filter((p) => p.id !== product.id)
+      .slice(0, 4)
   } catch (err: any) {
-    console.error("Failed to load product page details:", err)
-    errorMsg = err.message || "Failed to load product details."
+    console.error('Failed to load product page details:', err)
+    errorMsg = err.message || 'Failed to load product details.'
   }
 
   if (errorMsg) {
@@ -59,16 +60,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-24">
-      
       {/* Product Split Details */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
-        
         {/* Left: Interactive Image Gallery */}
         <Gallery images={product.images || []} thumbnail={product.thumbnail} />
 
         {/* Right: Info & Variant selections */}
         <VariantSelector product={product} />
-
       </div>
 
       {/* Specifications & Accordions */}
@@ -78,7 +76,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
             Shipping & Return Policy
           </h3>
           <p>
-            Complimentary shipping and free return collections on all orders within the EU. Standard delivery within 2-4 business days.
+            Complimentary shipping and free return collections on all orders within the EU. Standard
+            delivery within 2-4 business days.
           </p>
         </div>
         <div className="space-y-3">
@@ -86,7 +85,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
             Sizing & Fit
           </h3>
           <p>
-            Silhouettes are cut for a contemporary, slightly oversized fit. We recommend ordering your standard size. Refer to our size guide table.
+            Silhouettes are cut for a contemporary, slightly oversized fit. We recommend ordering
+            your standard size. Refer to our size guide table.
           </p>
         </div>
         <div className="space-y-3">
@@ -94,7 +94,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
             Care Guidelines
           </h3>
           <p>
-            Dry clean only or machine wash cold on a delicate cycle using mild detergent. Lay flat to dry out of direct sunlight.
+            Dry clean only or machine wash cold on a delicate cycle using mild detergent. Lay flat
+            to dry out of direct sunlight.
           </p>
         </div>
       </div>
@@ -115,7 +116,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
           </div>
         </section>
       )}
-
     </div>
   )
 }

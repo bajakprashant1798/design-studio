@@ -1,13 +1,13 @@
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import ProductCard from "@/components/product/product-card"
-import { medusa } from "@/lib/medusa"
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import ProductCard from '@/components/product/product-card'
+import { medusa } from '@/lib/medusa'
 
 interface PageProps {
   params: Promise<{ handle: string }>
 }
 
-export const dynamic = "force-dynamic"
+export const dynamic = 'force-dynamic'
 
 export default async function CategoryPage({ params }: PageProps) {
   const { handle } = await params
@@ -15,7 +15,7 @@ export default async function CategoryPage({ params }: PageProps) {
   let category: any = null
   let products: any[] = []
   let categories: any[] = []
-  let errorMsg = ""
+  let errorMsg = ''
 
   try {
     // 1. Fetch categories to list options and locate selected category
@@ -30,19 +30,18 @@ export default async function CategoryPage({ params }: PageProps) {
     // 2. Fetch products under this category
     const prodResponse = await medusa.store.product.list({
       category_id: [category.id],
-      region_id: "reg_01KXPHZG8SZD8BZV5TZ8MQBRG6",
-      fields: "*variants.calculated_price",
+      region_id: 'reg_01KXPHZG8SZD8BZV5TZ8MQBRG6',
+      fields: '*variants.calculated_price',
       limit: 20,
     })
     products = prodResponse.products || []
   } catch (err: any) {
-    console.error("Failed to query category products:", err)
-    errorMsg = err.message || "Failed to load category products."
+    console.error('Failed to query category products:', err)
+    errorMsg = err.message || 'Failed to load category products.'
   }
 
   return (
     <div className="mx-auto max-w-7xl w-full px-4 py-16 sm:px-6 lg:px-8 space-y-16">
-      
       {/* Category Header */}
       <header className="space-y-4 border-b border-zinc-150 pb-8 dark:border-zinc-800">
         <span className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase">
@@ -72,8 +71,8 @@ export default async function CategoryPage({ params }: PageProps) {
             href={`/categories/${cat.handle}`}
             className={`border px-5 py-2 text-xs font-medium tracking-wider uppercase transition-all duration-200 ${
               cat.handle === handle
-                ? "bg-black text-white border-black dark:bg-white dark:text-black dark:border-white"
-                : "border-zinc-200 hover:bg-black hover:text-white dark:border-zinc-850 dark:hover:bg-white dark:hover:text-black"
+                ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white'
+                : 'border-zinc-200 hover:bg-black hover:text-white dark:border-zinc-850 dark:hover:bg-white dark:hover:text-black'
             }`}
           >
             {cat.name}
@@ -101,7 +100,6 @@ export default async function CategoryPage({ params }: PageProps) {
           </div>
         )}
       </div>
-
     </div>
   )
 }

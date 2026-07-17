@@ -1,28 +1,28 @@
-"use client"
+'use client'
 
-import { useStore } from "@/context/store-context"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { X, ShoppingBag, Plus, Minus, Trash2 } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { useState } from "react"
+import { useStore } from '@/context/store-context'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { X, ShoppingBag, Plus, Minus, Trash2 } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
 import {
   getCart,
   updateCartItemAction,
   removeFromCartAction,
   applyPromoCodeAction,
-} from "@/lib/actions/cart"
-import { formatAmount } from "@/lib/prices"
+} from '@/lib/actions/cart'
+import { formatAmount } from '@/lib/prices'
 
 export default function SlideCart() {
   const { cartOpen, setCartOpen } = useStore()
   const queryClient = useQueryClient()
-  const [promoCode, setPromoCode] = useState("")
-  const [promoError, setPromoError] = useState("")
+  const [promoCode, setPromoCode] = useState('')
+  const [promoError, setPromoError] = useState('')
 
   // Fetch cart data dynamically on client side
   const { data: cart, isLoading } = useQuery({
-    queryKey: ["cart"],
+    queryKey: ['cart'],
     queryFn: () => getCart(),
     enabled: cartOpen,
   })
@@ -33,7 +33,7 @@ export default function SlideCart() {
       return updateCartItemAction(id, quantity)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] })
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
     },
   })
 
@@ -42,7 +42,7 @@ export default function SlideCart() {
       return removeFromCartAction(id)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] })
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
     },
   })
 
@@ -51,12 +51,12 @@ export default function SlideCart() {
       return applyPromoCodeAction(code)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] })
-      setPromoCode("")
-      setPromoError("")
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
+      setPromoCode('')
+      setPromoError('')
     },
     onError: (err: any) => {
-      setPromoError(err.message || "Invalid coupon code.")
+      setPromoError(err.message || 'Invalid coupon code.')
     },
   })
 
@@ -78,7 +78,7 @@ export default function SlideCart() {
   if (!cartOpen) return null
 
   const items = cart?.items || []
-  const currencyCode = cart?.currency_code || "eur"
+  const currencyCode = cart?.currency_code || 'eur'
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
@@ -92,7 +92,6 @@ export default function SlideCart() {
         {/* Drawer Panel */}
         <div className="w-screen max-w-md transform bg-white shadow-xl dark:bg-black transition-transform duration-300 ease-in-out">
           <div className="flex h-full flex-col overflow-y-scroll py-6 bg-white dark:bg-black">
-            
             {/* Drawer Header */}
             <div className="px-4 sm:px-6 flex items-center justify-between border-b border-zinc-150 pb-4 dark:border-zinc-800">
               <h2 className="text-sm font-medium tracking-widest text-black dark:text-white flex items-center gap-x-2">
@@ -115,7 +114,9 @@ export default function SlideCart() {
               ) : items.length === 0 ? (
                 <div className="h-full flex flex-col justify-center items-center text-center space-y-4">
                   <ShoppingBag className="h-10 w-10 text-zinc-300 dark:text-zinc-700 stroke-[1.2]" />
-                  <p className="text-xs tracking-wider text-zinc-500 uppercase">Your bag is empty</p>
+                  <p className="text-xs tracking-wider text-zinc-500 uppercase">
+                    Your bag is empty
+                  </p>
                   <button
                     onClick={() => setCartOpen(false)}
                     className="inline-block border border-black px-6 py-2 text-xs tracking-widest uppercase hover:bg-black hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black transition-all duration-150"
@@ -225,7 +226,9 @@ export default function SlideCart() {
                         Apply
                       </button>
                     </div>
-                    {promoError && <p className="text-[10px] text-red-500 font-light">{promoError}</p>}
+                    {promoError && (
+                      <p className="text-[10px] text-red-500 font-light">{promoError}</p>
+                    )}
                   </form>
                 </div>
               )}
@@ -268,7 +271,6 @@ export default function SlideCart() {
                 </div>
               </div>
             )}
-
           </div>
         </div>
       </div>

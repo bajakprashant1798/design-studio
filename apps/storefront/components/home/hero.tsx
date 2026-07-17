@@ -1,5 +1,5 @@
-import Link from "next/link"
-import Image from "next/image"
+import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Hero() {
   return (
@@ -25,7 +25,8 @@ export default function Hero() {
             The Modern Uniform.
           </h1>
           <p className="text-sm tracking-wide text-zinc-150 leading-relaxed font-light">
-            A study in form, proportion, and monochrome textures. Premium essential silhouettes designed to transcend seasons.
+            A study in form, proportion, and monochrome textures. Premium essential silhouettes
+            designed to transcend seasons.
           </p>
           <div className="pt-2">
             <Link
