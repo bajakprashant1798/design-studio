@@ -1,0 +1,16 @@
+# Build directories
+.next
+.medusa
+dist
+build
+coverage
+
+# Cache/configs
+.turbo
+.vscode
+node_modules
+pnpm-lock.yaml
+
+# Assets
+public/
+uploads/

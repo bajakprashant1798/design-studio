@@ -1,0 +1,27 @@
+{
+  "name": "@dtc/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared ESLint configurations for Design Studio",
+  "license": "MIT",
+  "main": "base.js",
+  "exports": {
+    ".": "./base.js",
+    "./base": "./base.js",
+    "./next": "./next.js",
+    "./medusa": "./medusa.js"
+  },
+  "files": [
+    "base.js",
+    "next.js",
+    "medusa.js"
+  ],
+  "dependencies": {
+    "@medusajs/eslint-plugin": "2.16.0",
+    "eslint-config-next": "^15.1.6"
+  },
+  "peerDependencies": {
+    "eslint": ">=9.0.0"
+  }
+}

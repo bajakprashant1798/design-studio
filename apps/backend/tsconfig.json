@@ -1,0 +1,24 @@
+{
+  "extends": "@dtc/typescript-config/node.json",
+  "compilerOptions": {
+    "outDir": "./.medusa/server",
+    "rootDir": "./",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "ts-node": {
+    "swc": true
+  },
+  "include": [
+    "**/*",
+    ".medusa/types/*"
+  ],
+  "exclude": [
+    "node_modules",
+    ".medusa/server",
+    ".medusa/admin",
+    ".cache",
+    "eslint.config.*"
+  ]
+}

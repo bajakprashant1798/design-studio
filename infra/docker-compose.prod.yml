@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dtc-postgres-prod
+    restart: always
+    environment:
+      POSTGRES_USER: medusa
+      POSTGRES_PASSWORD: medusapassword
+      POSTGRES_DB: medusa
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: dtc-redis-prod
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data_prod:/data
+
+  backend:
+    build:
+      context: ../
+      dockerfile: apps/backend/Dockerfile
+    container_name: dtc-backend-prod
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "9000:9000"
+    environment:
+      - DATABASE_URL=postgres://medusa:medusapassword@postgres:5432/medusa
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=supersecretprodjwtsecretchangeit
+      - COOKIE_SECRET=supersecretprodcookiesecretchangeit
+      - STORE_CORS=http://localhost:3000
+      - ADMIN_CORS=http://localhost:9000
+      - AUTH_CORS=http://localhost:3000,http://localhost:9000
+
+  storefront:
+    build:
+      context: ../
+      dockerfile: apps/storefront/Dockerfile
+    container_name: dtc-storefront-prod
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://backend:9000
+
+volumes:
+  postgres_data_prod:
+  redis_data_prod:
