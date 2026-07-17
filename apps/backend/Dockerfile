@@ -1,35 +1,34 @@
-# Stage 1: Build
-FROM node:22-alpine AS builder
-WORKDIR /app
-RUN apk add --no-cache python3 make g++ gcc libc-dev
+FROM node:22-alpine AS base
+RUN apk add --no-cache libc6-compat
 RUN npm install -g pnpm@11.1.2
 
-COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
-COPY packages/ ./packages/
-COPY apps/backend/package.json ./apps/backend/
+WORKDIR /app
 
-RUN pnpm install --frozen-lockfile --filter=@dtc/backend...
+# Copy monorepo config files
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 
-COPY apps/backend/ ./apps/backend/
+# Copy workspace dependencies
+COPY packages/eslint-config ./packages/eslint-config
+COPY packages/typescript-config ./packages/typescript-config
 
+# Copy backend application
+COPY apps/backend ./apps/backend
+
+# Install dependencies and compile code
+RUN pnpm install --frozen-lockfile
 RUN pnpm --filter=@dtc/backend build
 
-# Stage 2: Production Run
+# Runner stage
 FROM node:22-alpine AS runner
-WORKDIR /app
-ENV NODE_ENV=production
-
 RUN npm install -g pnpm@11.1.2
+WORKDIR /app
 
-COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
-COPY packages/ ./packages/
-COPY apps/backend/package.json ./apps/backend/
-
-RUN pnpm install --prod --frozen-lockfile --filter=@dtc/backend...
-
-COPY --from=builder /app/apps/backend/.medusa /app/apps/backend/.medusa
-COPY --from=builder /app/apps/backend/medusa-config.ts /app/apps/backend/medusa-config.ts
+# Copy all build outputs from compiler stage
+COPY --from=base /app ./
 
 EXPOSE 9000
+ENV PORT=9000
+ENV NODE_ENV=production
 
-CMD ["pnpm", "--filter", "@dtc/backend", "start"]
+# Migrate database at boot, then start the server
+CMD ["sh", "-c", "pnpm --filter=@dtc/backend exec medusa db:migrate && pnpm --filter=@dtc/backend start"]
