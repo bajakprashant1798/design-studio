@@ -30,5 +30,5 @@ EXPOSE 9000
 ENV PORT=9000
 ENV NODE_ENV=production
 
-# Migrate database at boot, then start the server
-CMD ["sh", "-c", "pnpm --filter=@dtc/backend exec medusa db:migrate && pnpm --filter=@dtc/backend start"]
+# Migrate database at boot, then start the server from the compiled build output folder
+CMD ["sh", "-c", "pnpm --filter=@dtc/backend exec medusa db:migrate && cd apps/backend/.medusa/server && npx medusa start"]
