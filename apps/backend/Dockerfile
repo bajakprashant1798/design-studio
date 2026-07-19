@@ -30,5 +30,5 @@ EXPOSE 9000
 ENV PORT=9000
 ENV NODE_ENV=production
 
-# Migrate database, create admin user and publishable key (ignoring duplicates), then start the server
-CMD ["sh", "-c", "pnpm --filter=@dtc/backend exec medusa db:migrate && (pnpm --filter=@dtc/backend exec medusa user --email bajakprashant1998@gmail.com --password 12345678 || true) && (pnpm --filter=@dtc/backend exec medusa publishable-key create --title 'Vercel Key' || true) && cd apps/backend/.medusa/server && npx medusa start"]
+# Migrate database, seed user and publishable key, then start the server
+CMD ["sh", "-c", "pnpm --filter=@dtc/backend exec medusa db:migrate && (pnpm --filter=@dtc/backend exec medusa user --email bajakprashant1998@gmail.com --password 12345678 || true) && cd apps/backend/.medusa/server && (npx medusa exec ./src/scripts/create-key.js || true) && npx medusa start"]
