@@ -1,7 +1,7 @@
 import { Modules, ContainerRegistrationKeys } from '@medusajs/framework/utils'
 import { IApiKeyModuleService } from '@medusajs/framework/types'
 
-export default async function createPublishableKey(container: any) {
+export default async function createPublishableKey({ container }: any) {
   const apiKeyModuleService: IApiKeyModuleService = container.resolve(Modules.API_KEY)
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER)
 
