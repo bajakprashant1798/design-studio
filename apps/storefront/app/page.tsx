@@ -3,7 +3,7 @@ import Editorial from '@/components/home/editorial'
 import Newsletter from '@/components/home/newsletter'
 import Instagram from '@/components/home/instagram'
 import ProductCard from '@/components/product/product-card'
-import { medusa } from '@/lib/medusa'
+import { medusa, getDefaultRegionId } from '@/lib/medusa'
 
 // Force dynamic rendering to query backend state on demand
 export const dynamic = 'force-dynamic'
@@ -13,8 +13,9 @@ export default async function Home() {
   let errorMsg = ''
 
   try {
+    const regionId = await getDefaultRegionId()
     const response = await medusa.store.product.list({
-      region_id: 'reg_01KXPHZG8SZD8BZV5TZ8MQBRG6',
+      region_id: regionId,
       fields: '*variants.calculated_price',
       limit: 8,
     })

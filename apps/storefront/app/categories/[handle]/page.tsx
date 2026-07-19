@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import ProductCard from '@/components/product/product-card'
-import { medusa } from '@/lib/medusa'
+import { medusa, getDefaultRegionId } from '@/lib/medusa'
 
 interface PageProps {
   params: Promise<{ handle: string }>
@@ -28,9 +28,10 @@ export default async function CategoryPage({ params }: PageProps) {
     }
 
     // 2. Fetch products under this category
+    const regionId = await getDefaultRegionId()
     const prodResponse = await medusa.store.product.list({
       category_id: [category.id],
-      region_id: 'reg_01KXPHZG8SZD8BZV5TZ8MQBRG6',
+      region_id: regionId,
       fields: '*variants.calculated_price',
       limit: 20,
     })

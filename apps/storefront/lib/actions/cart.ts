@@ -1,7 +1,7 @@
 'use server'
 
 import { cookies } from 'next/headers'
-import { medusa } from '@/lib/medusa'
+import { medusa, getDefaultRegionId } from '@/lib/medusa'
 
 export async function getOrCreateCartId(): Promise<string> {
   const cookieStore = await cookies()
@@ -9,8 +9,9 @@ export async function getOrCreateCartId(): Promise<string> {
 
   if (!cartId) {
     try {
+      const regionId = await getDefaultRegionId()
       const { cart } = await medusa.store.cart.create({
-        region_id: 'reg_01KXPHZG8SZD8BZV5TZ8MQBRG6',
+        region_id: regionId,
       })
       cartId = cart.id
       cookieStore.set('cart_id', cartId, {

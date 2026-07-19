@@ -1,5 +1,5 @@
 import ProductCard from '@/components/product/product-card'
-import { medusa } from '@/lib/medusa'
+import { medusa, getDefaultRegionId } from '@/lib/medusa'
 import { Search } from 'lucide-react'
 
 interface PageProps {
@@ -16,9 +16,10 @@ export default async function SearchPage({ searchParams }: PageProps) {
 
   try {
     if (query.trim()) {
+      const regionId = await getDefaultRegionId()
       const response = await medusa.store.product.list({
         q: query,
-        region_id: 'reg_01KXPHZG8SZD8BZV5TZ8MQBRG6',
+        region_id: regionId,
         fields: '*variants.calculated_price',
         limit: 20,
       })

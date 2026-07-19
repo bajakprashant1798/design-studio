@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import ProductCard from '@/components/product/product-card'
-import { medusa } from '@/lib/medusa'
+import { medusa, getDefaultRegionId } from '@/lib/medusa'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,8 +13,9 @@ export default async function CategoriesPage() {
     const catResponse = await medusa.store.category.list()
     categories = catResponse.product_categories || []
 
+    const regionId = await getDefaultRegionId()
     const prodResponse = await medusa.store.product.list({
-      region_id: 'reg_01KXPHZG8SZD8BZV5TZ8MQBRG6',
+      region_id: regionId,
       fields: '*variants.calculated_price',
       limit: 20,
     })

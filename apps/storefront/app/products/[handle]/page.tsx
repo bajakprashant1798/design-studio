@@ -3,7 +3,7 @@ import Gallery from '@/components/product/gallery'
 import VariantSelector from '@/components/product/variant-selector'
 import ProductCard from '@/components/product/product-card'
 import ReviewsSection from '@/components/product/reviews-section'
-import { medusa } from '@/lib/medusa'
+import { medusa, getDefaultRegionId } from '@/lib/medusa'
 
 interface PageProps {
   params: Promise<{ handle: string }>
@@ -20,9 +20,10 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
   try {
     // 1. Fetch product list by handle
+    const regionId = await getDefaultRegionId()
     const response = await medusa.store.product.list({
       handle: handle,
-      region_id: 'reg_01KXPHZG8SZD8BZV5TZ8MQBRG6',
+      region_id: regionId,
       fields: '*variants.calculated_price',
       limit: 1,
     })
@@ -36,7 +37,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
     const catId = product.categories?.[0]?.id
     const relatedResponse = await medusa.store.product.list({
       category_id: catId ? [catId] : undefined,
-      region_id: 'reg_01KXPHZG8SZD8BZV5TZ8MQBRG6',
+      region_id: regionId,
       fields: '*variants.calculated_price',
       limit: 5,
     })
