@@ -1,79 +1,86 @@
+'use client'
+
 import Link from 'next/link'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
+import { useState } from 'react'
 
-export default function Footer() {
-  const footerSections = [
-    {
-      title: 'COLLECTIONS',
-      links: [
-        { name: 'New Arrivals', href: '/collections/new-arrivals' },
-        { name: 'Best Sellers', href: '/collections/best-sellers' },
-        { name: 'All Products', href: '/categories' },
-      ],
-    },
-    {
-      title: 'ASSISTANCE',
-      links: [
-        { name: 'Contact Us', href: '/contact' },
-        { name: 'Shipping & Returns', href: '/about' },
-        { name: 'FAQs', href: '/about' },
-      ],
-    },
-    {
-      title: 'LEGAL',
-      links: [
-        { name: 'Privacy Policy', href: '/privacy' },
-        { name: 'Terms & Conditions', href: '/terms' },
-      ],
-    },
-  ]
-
+export function Footer() {
+  const [email, setEmail] = useState('')
   return (
-    <footer className="border-t border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950">
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand info */}
-          <div className="flex flex-col space-y-4">
-            <span className="font-serif text-lg font-medium tracking-widest text-black dark:text-white">
-              DESIGN STUDIO
-            </span>
-            <p className="max-w-xs text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-              A curation of premium essential apparel designed for the modern uniform. Crafted with
-              slow-fashion principles and premium materials.
-            </p>
-          </div>
-
-          {/* Nav links columns */}
-          {footerSections.map((section) => (
-            <div key={section.title} className="flex flex-col space-y-4">
-              <span className="text-xs font-semibold tracking-widest text-black dark:text-white">
-                {section.title}
-              </span>
-              <ul className="space-y-2">
-                {section.links.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="text-xs text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors duration-150"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        {/* Bottom copyright and disclaimer */}
-        <div className="mt-16 border-t border-zinc-200 pt-8 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[10px] tracking-wide text-zinc-400 dark:text-zinc-500">
-            &copy; {new Date().getFullYear()} DESIGN STUDIO. All rights reserved.
+    <footer className="mt-24 border-t border-border/40 bg-background">
+      <div className="grid gap-12 px-4 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:px-8">
+        <div>
+          <div className="font-serif text-2xl tracking-[0.24em]">DESIGN STUDIO</div>
+          <p className="mt-4 max-w-sm text-sm text-muted-foreground">
+            An editorial house of quiet, uncompromising ready-to-wear. Powered by Medusa v2.
           </p>
-          <p className="text-[10px] tracking-wide text-zinc-400 dark:text-zinc-500">
-            Premium Fashion E-Commerce Core powered by Medusa v2.
-          </p>
+          <form
+            className="mt-8 flex max-w-sm gap-2"
+            onSubmit={(e) => {
+              e.preventDefault()
+              if (!email) return
+              toast.success('Welcome to the studio.')
+              setEmail('')
+            }}
+          >
+            <Input
+              type="email"
+              required
+              placeholder="Your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="rounded-none border-foreground/30 bg-transparent"
+            />
+            <Button type="submit" className="rounded-none">
+              Subscribe
+            </Button>
+          </form>
         </div>
+        <FooterCol
+          title="Shop"
+          links={[
+            ['All Pieces', '/categories'],
+            ['Sweatshirts', '/categories/sweatshirts'],
+            ['Shirts', '/categories/shirts'],
+            ['Pants', '/categories/pants'],
+            ['Merch', '/categories/merch'],
+          ]}
+        />
+        <FooterCol
+          title="Studio"
+          links={[
+            ['Lookbook', '/lookbook'],
+            ['About Us', '/about'],
+          ]}
+        />
+        <FooterCol title="Services" links={[['Client Care', '/about']]} />
+      </div>
+      <div className="flex flex-col justify-between gap-4 border-t border-border/40 px-4 py-6 text-xs text-muted-foreground md:flex-row md:px-8">
+        <p>© {new Date().getFullYear()} Design Studio. All rights reserved.</p>
+        <p className="uppercase tracking-[0.2em]">Paris · Milan · New York</p>
       </div>
     </footer>
+  )
+}
+
+function FooterCol({ title, links }: { title: string; links: [string, string][] }) {
+  return (
+    <div>
+      <div className="eyebrow mb-4">{title}</div>
+      <ul className="space-y-2 text-sm">
+        {links.map(([label, href]) => (
+          <li key={label}>
+            <Link
+              href={href}
+              className="text-foreground/70 hover:text-foreground transition-colors"
+            >
+              {label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }

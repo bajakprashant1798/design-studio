@@ -1,26 +1,30 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Cormorant_Garamond, Inter } from 'next/font/google'
 import './globals.css'
 import QueryProvider from '@/providers/query-provider'
-import { StoreProvider } from '@/context/store-context'
-import Header from '@/components/layout/header'
-import Footer from '@/components/layout/footer'
-import SlideCart from '@/components/cart/slide-cart'
+import { StoreProvider } from '@/lib/store'
+import { Header } from '@/components/layout/Header'
+import { Footer } from '@/components/layout/Footer'
+import { CartDrawer } from '@/components/commerce/CartDrawer'
+import { SearchOverlay } from '@/components/search/SearchOverlay'
+import { Toaster } from '@/components/ui/sonner'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const cormorant = Cormorant_Garamond({
+  weight: ['300', '400', '500'],
   subsets: ['latin'],
+  variable: '--font-serif',
 })
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const inter = Inter({
+  weight: ['300', '400', '500', '600'],
   subsets: ['latin'],
+  variable: '--font-sans',
 })
 
 export const metadata: Metadata = {
-  title: 'DESIGN STUDIO | Premium Essential Apparel',
+  title: 'DESIGN STUDIO — Ready-to-Wear',
   description:
-    'Curation of premium slow-fashion essential apparel designed for the modern uniform.',
+    'Editorial ready-to-wear from an uncompromising Parisian house. Designed with quiet, made in Italy.',
 }
 
 export default function RootLayout({
@@ -29,14 +33,18 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-white text-zinc-950 dark:bg-black dark:text-zinc-50 font-sans">
+    <html lang="en" className={`dark ${cormorant.variable} ${inter.variable} h-full antialiased`}>
+      <body className="flex min-h-screen flex-col bg-background text-foreground font-sans">
         <QueryProvider>
           <StoreProvider>
-            <Header />
-            <main className="flex-grow flex flex-col">{children}</main>
-            <SlideCart />
-            <Footer />
+            <div className="flex min-h-screen flex-col bg-background text-foreground">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <CartDrawer />
+              <SearchOverlay />
+              <Toaster />
+            </div>
           </StoreProvider>
         </QueryProvider>
       </body>

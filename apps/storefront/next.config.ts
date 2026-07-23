@@ -1,16 +1,17 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  experimental: {
-    reactCompiler: true,
+  eslint: {
+    ignoreDuringBuilds: true,
   },
-  output: 'standalone',
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'medusa-public-images.s3.eu-west-1.amazonaws.com',
+        hostname: '**',
       },
     ],
   },

@@ -1,38 +1,74 @@
+import type { Metadata } from 'next'
+import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'About Us — Design Studio',
+  description:
+    'Learn about our philosophy of quiet luxury, Italian craftsmanship, and modern uniform tailoring.',
+}
+
 export default function AboutPage() {
   return (
-    <article className="mx-auto max-w-2xl px-4 py-24 sm:px-6 lg:px-8 space-y-12">
-      <header className="space-y-4 text-center">
-        <span className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase">
-          OUR MISSION
-        </span>
-        <h1 className="font-serif text-3xl sm:text-4xl tracking-tight text-black dark:text-white">
-          Slow Fashion. Conscious Curation.
+    <div className="px-4 md:px-8 py-16 max-w-5xl mx-auto">
+      <header className="mb-16 border-b border-border/40 pb-12">
+        <div className="eyebrow text-muted-foreground mb-4">Our Philosophy</div>
+        <h1 className="font-serif text-5xl md:text-7xl leading-tight">
+          Quiet form.
+          <br />
+          Uncompromising line.
         </h1>
       </header>
 
-      <section className="text-xs leading-relaxed text-zinc-650 dark:text-zinc-350 space-y-6 font-light">
-        <p>
-          DESIGN STUDIO was founded with a singular focus: to create a contemporary uniform that
-          balances architectural simplicity with everyday utility. We reject the rapid cycles of
-          fast fashion, choosing instead to design and refine garments that endure.
-        </p>
-        <p>
-          Each collection is produced in limited volumes, utilizing organic cotton, heavy-weight
-          linen, and recycled cashmere sourced from ethical mills. Our manufacturing partners are
-          vetted for fair labor practices and shared environmental values.
-        </p>
-        <p>
-          By embracing neutral monochromatic palettes, subtle tailored proportions, and removing
-          visible branding, we design clothes that integrate seamlessly with your wardrobe. This is
-          clothing as structural canvas, curated to outlast trend cycles.
-        </p>
-      </section>
+      <div className="grid gap-12 md:grid-cols-2 text-muted-foreground leading-relaxed text-base mb-16">
+        <div className="space-y-6">
+          <h2 className="font-serif text-2xl text-foreground">The Atelier</h2>
+          <p>
+            Founded with a singular commitment to slow, deliberate craftsmanship, Design Studio
+            constructs modern ready-to-wear designed for longevity. Every piece in our collection is
+            conceived in our Paris design atelier and brought to life in small family-owned mills
+            across Northern Italy.
+          </p>
+          <p>
+            We reject seasonal trends in favor of architectural silhouettes, uncompromised material
+            sourcing, and tactile precision.
+          </p>
+        </div>
 
-      <div className="border-t border-zinc-200 pt-8 dark:border-zinc-800 text-center">
-        <p className="text-[10px] tracking-widest text-zinc-400 uppercase">
-          DESIGNED IN COPENHAGEN / BUILT TO ENDURE
-        </p>
+        <div className="space-y-6">
+          <h2 className="font-serif text-2xl text-foreground">Materiality & Process</h2>
+          <p>
+            From heavy organic cotton knits to extra-fine Italian virgin wool, our textiles are
+            selected for their weight, drape, and enduring feel. Every seam, hem, and button option
+            is stress-tested to ensure daily utility without losing form.
+          </p>
+          <p>
+            Our e-commerce store is built on Medusa v2 infrastructure to deliver real-time inventory
+            precision, transparent pricing, and instant global fulfillment.
+          </p>
+        </div>
       </div>
-    </article>
+
+      <div className="relative aspect-[21/9] w-full overflow-hidden bg-muted mb-16">
+        <img
+          src="/assets/hero.jpg"
+          alt="Studio atelier process"
+          className="h-full w-full object-cover"
+        />
+      </div>
+
+      <div className="text-center py-12 border-t border-border/40">
+        <h3 className="font-serif text-3xl mb-4">Explore The Collection</h3>
+        <p className="text-muted-foreground text-sm max-w-md mx-auto mb-8">
+          Discover our latest releases in Shirts, Sweatshirts, Pants, and Merch available straight
+          from our warehouse.
+        </p>
+        <Link
+          href="/categories"
+          className="eyebrow bg-foreground text-background px-8 py-4 inline-block hover:opacity-90 transition"
+        >
+          View All Pieces →
+        </Link>
+      </div>
+    </div>
   )
 }

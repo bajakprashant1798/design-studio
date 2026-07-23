@@ -1,74 +1,85 @@
-import Link from 'next/link'
-import ProductCard from '@/components/product/product-card'
-import { medusa, getDefaultRegionId } from '@/lib/medusa'
+'use client'
 
-export const dynamic = 'force-dynamic'
+import { useMemo, useState, useEffect } from 'react'
+import { ProductCard } from '@/components/commerce/ProductCard'
+import { FilterSidebar, DEFAULT_FILTERS, type Filters } from '@/components/commerce/FilterSidebar'
+import { getStoreProducts } from '@/lib/medusa'
 
-export default async function CategoriesPage() {
-  let categories: any[] = []
-  let products: any[] = []
-  let errorMsg = ''
+export default function CategoriesPage() {
+  const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS)
+  const [products, setProducts] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
-  try {
-    const catResponse = await medusa.store.category.list()
-    categories = catResponse.product_categories || []
+  useEffect(() => {
+    async function loadProducts() {
+      setLoading(true)
+      const data = await getStoreProducts({ limit: 100 })
+      setProducts(data)
+      setLoading(false)
+    }
+    loadProducts()
+  }, [])
 
-    const regionId = await getDefaultRegionId()
-    const prodResponse = await medusa.store.product.list({
-      region_id: regionId,
-      fields: '*variants.calculated_price',
-      limit: 20,
+  const filteredList = useMemo(() => {
+    let list = products
+
+    // Category filter
+    if (filters.categories.length > 0) {
+      list = list.filter((p: any) =>
+        p.categories?.some((c: any) => filters.categories.includes(c.id))
+      )
+    }
+
+    // Price filter
+    list = list.filter((p: any) => {
+      const calcAmount =
+        p.variants?.[0]?.calculated_price?.calculated_amount ??
+        (p.variants?.[0]?.prices?.[0]?.amount ? p.variants[0].prices[0].amount / 100 : 0)
+      return calcAmount >= filters.price[0] && calcAmount <= filters.price[1]
     })
-    products = prodResponse.products || []
-  } catch (err: any) {
-    console.error('Failed to load catalog data:', err)
-    errorMsg = err.message || 'Unable to fetch storefront catalog.'
-  }
+
+    // Sort
+    if (filters.sort === 'price-asc') {
+      list = [...list].sort((a, b) => {
+        const pA = a.variants?.[0]?.calculated_price?.calculated_amount ?? 0
+        const pB = b.variants?.[0]?.calculated_price?.calculated_amount ?? 0
+        return pA - pB
+      })
+    } else if (filters.sort === 'price-desc') {
+      list = [...list].sort((a, b) => {
+        const pA = a.variants?.[0]?.calculated_price?.calculated_amount ?? 0
+        const pB = b.variants?.[0]?.calculated_price?.calculated_amount ?? 0
+        return pB - pA
+      })
+    }
+
+    return list
+  }, [products, filters])
 
   return (
-    <div className="mx-auto max-w-7xl w-full px-4 py-16 sm:px-6 lg:px-8 space-y-16">
-      {/* Page Header */}
-      <header className="space-y-4 border-b border-zinc-150 pb-8 dark:border-zinc-800">
-        <span className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase">
-          CATALOGUE
-        </span>
-        <h1 className="font-serif text-3xl sm:text-4xl tracking-tight text-black dark:text-white">
-          All Apparel
-        </h1>
+    <div className="px-4 md:px-8 py-12">
+      <header className="mb-12">
+        <div className="eyebrow text-muted-foreground mb-4">Medusa Collection · Catalog</div>
+        <h1 className="font-serif text-5xl md:text-7xl">All Pieces</h1>
       </header>
-
-      {/* Category Shortcuts */}
-      <div className="flex flex-wrap gap-3">
-        {categories.map((cat) => (
-          <Link
-            key={cat.id}
-            href={`/categories/${cat.handle}`}
-            className="border border-zinc-200 px-5 py-2 text-xs font-medium tracking-wider uppercase hover:bg-black hover:text-white dark:border-zinc-850 dark:hover:bg-white dark:hover:text-black transition-all duration-200"
-          >
-            {cat.name}
-          </Link>
-        ))}
-      </div>
-
-      {/* Product Grid */}
-      <div className="space-y-8">
-        <h2 className="text-sm font-semibold tracking-widest text-zinc-450 uppercase">
-          All Products ({products.length})
-        </h2>
-
-        {errorMsg ? (
-          <p className="text-xs text-zinc-400 tracking-wider text-center py-12">{errorMsg}</p>
-        ) : products.length === 0 ? (
-          <p className="text-xs text-zinc-400 tracking-wider text-center py-12">
-            No products found.
-          </p>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+      <div className="grid gap-10 md:grid-cols-[220px_1fr] lg:grid-cols-[260px_1fr]">
+        <FilterSidebar filters={filters} setFilters={setFilters} />
+        <div>
+          <div className="mb-6 text-sm text-muted-foreground">
+            {loading ? 'Loading pieces...' : `${filteredList.length} pieces available`}
           </div>
-        )}
+          {filteredList.length === 0 && !loading ? (
+            <div className="p-12 text-center text-muted-foreground text-sm border border-dashed border-border">
+              No products found in backend matching current criteria.
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-14">
+              {filteredList.map((p: any) => (
+                <ProductCard key={p.id} product={p} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
