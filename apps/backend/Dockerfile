@@ -16,6 +16,7 @@ COPY apps/backend ./apps/backend
 
 # Install dependencies and compile code
 RUN pnpm install --frozen-lockfile
+ENV NODE_OPTIONS="--max-old-space-size=2048"
 RUN pnpm --filter=@dtc/backend build
 
 # Runner stage
