@@ -46,13 +46,18 @@ export default function CategoryDetailPage({ params }: PageProps) {
   const filteredList = useMemo(() => {
     let list = products
 
-    // Price filter
-    list = list.filter((p: any) => {
-      const calcAmount =
-        p.variants?.[0]?.calculated_price?.calculated_amount ??
-        (p.variants?.[0]?.prices?.[0]?.amount ? p.variants[0].prices[0].amount / 100 : 0)
-      return calcAmount >= filters.price[0] && calcAmount <= filters.price[1]
-    })
+    // Price filter (only filter if custom range specified)
+    if (filters.price[0] > 0 || filters.price[1] < 1000) {
+      list = list.filter((p: any) => {
+        let calcAmount = p.variants?.[0]?.calculated_price?.calculated_amount
+        if (calcAmount === undefined || calcAmount === null) {
+          const rawPrice = p.variants?.[0]?.prices?.[0]?.amount
+          calcAmount = rawPrice ? rawPrice / 100 : 0
+        }
+        if (calcAmount === 0) return true
+        return calcAmount >= filters.price[0] && calcAmount <= filters.price[1]
+      })
+    }
 
     // Sort
     if (filters.sort === 'price-asc') {

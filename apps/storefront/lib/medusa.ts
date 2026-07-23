@@ -33,25 +33,34 @@ export async function getStoreProducts(params?: {
   offset?: number
   region_id?: string
 }) {
+  const queryParams: any = {
+    fields: '*variants.calculated_price,*categories,*images,*options.values',
+    limit: params?.limit || 50,
+    offset: params?.offset || 0,
+  }
+
+  if (params?.category_id && params.category_id.length > 0) {
+    queryParams.category_id = params.category_id
+  }
+  if (params?.handle) queryParams.handle = params.handle
+  if (params?.q) queryParams.q = params.q
+
   try {
     const regionId = params?.region_id || (await getDefaultRegionId())
-    const queryParams: any = {
-      fields: '*variants.calculated_price,*categories,*images,*options.values',
-      limit: params?.limit || 50,
-      offset: params?.offset || 0,
-    }
     if (regionId) queryParams.region_id = regionId
-    if (params?.category_id && params.category_id.length > 0) {
-      queryParams.category_id = params.category_id
-    }
-    if (params?.handle) queryParams.handle = params.handle
-    if (params?.q) queryParams.q = params.q
 
     const response = await medusa.store.product.list(queryParams)
     return response.products || []
   } catch (err) {
-    console.error('Failed to fetch store products:', err)
-    return []
+    console.error('Failed to fetch store products with region_id, retrying without region_id:', err)
+    try {
+      delete queryParams.region_id
+      const fallbackResponse = await medusa.store.product.list(queryParams)
+      return fallbackResponse.products || []
+    } catch (fallbackErr) {
+      console.error('Failed to fetch store products:', fallbackErr)
+      return []
+    }
   }
 }
 
