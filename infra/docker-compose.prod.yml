@@ -39,9 +39,9 @@ services:
       - REDIS_URL=redis://redis:6379
       - JWT_SECRET=supersecretprodjwtsecretchangeit
       - COOKIE_SECRET=supersecretprodcookiesecretchangeit
-      - STORE_CORS=http://localhost:3000
-      - ADMIN_CORS=http://localhost:9000
-      - AUTH_CORS=http://localhost:3000,http://localhost:9000
+      - STORE_CORS=https://shop.prashantbajak.in,http://shop.prashantbajak.in,https://design-studio-storefront-seven.vercel.app,http://localhost:3000,http://localhost:8000,https://docs.medusajs.com
+      - ADMIN_CORS=https://api.prashantbajak.in,http://api.prashantbajak.in,http://localhost:5173,http://localhost:9000,https://docs.medusajs.com
+      - AUTH_CORS=https://shop.prashantbajak.in,http://shop.prashantbajak.in,https://api.prashantbajak.in,http://api.prashantbajak.in,https://design-studio-storefront-seven.vercel.app,http://localhost:3000,http://localhost:5173,http://localhost:9000,http://localhost:8000,https://docs.medusajs.com
 
   storefront:
     build:
